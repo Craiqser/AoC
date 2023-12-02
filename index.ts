@@ -1,3 +1,3 @@
-import { part1 } from './2023/day1';
+import { task } from './2023/day2/part1';
 
-await part1();
+await task();
