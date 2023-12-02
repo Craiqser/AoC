@@ -1,13 +1,11 @@
 export const task = async () => {
-	const limits = { red: 12, green: 13, blue: 14 };
 	let acc = 0;
-	let isFail = false;
 
 	const lines = (await Bun.file('./2023/day2/assets/input.txt').text()).split('\n');
 	lines.forEach((line) => {
 		if (line.length > 0) {
 			let game = line.split(':');
-			const gameNum = parseInt(game[0].split(' ')[1]);
+			const maxSubset = { red: 1, green: 1, blue: 1 };
 			const subsets = game[1].split(';');
 
 			for (let i = 0; i < subsets.length; i++) {
@@ -17,15 +15,12 @@ export const task = async () => {
 					const countColor = cubes[j].trim().split(' ');
 					const cubCount = parseInt(countColor[0]);
 					const cubColor = countColor[1];
-					if (cubCount > limits[cubColor]) {
-						isFail = true;
-						break;
+					if (cubCount > maxSubset[cubColor]) {
+						maxSubset[cubColor] = cubCount;
 					}
 				}
-				if (isFail) break;
 			}
-			acc += isFail ? 0 : gameNum;
-			isFail = false;
+			acc += maxSubset.red * maxSubset.green * maxSubset.blue;
 		}
 	});
 	console.log(acc);
