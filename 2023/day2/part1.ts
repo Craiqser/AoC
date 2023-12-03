@@ -3,14 +3,14 @@ export const task = async () => {
 	let acc = 0;
 	let isFail = false;
 
-	const lines = (await Bun.file('./2023/day2/assets/input.txt').text()).split('\n');
+	const lines = (await Bun.file('./2023/day3/assets/test1.txt').text()).split('\n');
 	lines.forEach((line) => {
 		if (line.length > 0) {
 			let game = line.split(':');
 			const gameNum = parseInt(game[0].split(' ')[1]);
 			const subsets = game[1].split(';');
 
-			for (let i = 0; i < subsets.length; i++) {
+			for (let i = 0; !isFail || (i < subsets.length); i++) {
 				const cubes = subsets[i].split(',');
 
 				for (let j = 0; j < cubes.length; j++) {
@@ -22,7 +22,6 @@ export const task = async () => {
 						break;
 					}
 				}
-				if (isFail) break;
 			}
 			acc += isFail ? 0 : gameNum;
 			isFail = false;
