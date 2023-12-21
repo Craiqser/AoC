@@ -1,4 +1,4 @@
-import { task } from './2023/day6/part2';
+import { task } from './2023/day7/part1';
 
 console.time('Task');
 await task();
