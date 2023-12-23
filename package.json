@@ -1,6 +1,6 @@
 {
 	"devDependencies": {
-		"bun-types": "latest"
+		"@types/bun": "latest"
 	},
 	"module": "index.ts",
 	"name": "aoc",
