@@ -1,5 +1,4 @@
 const map = (await Bun.file('./2023/day10/assets/input.txt').text()).split('\n');
-const queue = [];
 
 const nextStep = (row, col) => {
 	switch (map[row][col]) {
@@ -18,6 +17,7 @@ export const task = async () => {
 	for (let row = 0; row < map.length; row++) {
 		for (let col = 0; col < map[row].length; col++) {
 			if (map[row][col] === 'S') {
+				const queue = [];
 				queue.push([row, col, 0]);
 				if ('|7F'.includes(map[row - 1][col])) queue.push([row - 1, col, 1]);
 				if ('|LJ'.includes(map[row + 1][col])) queue.push([row + 1, col, 1]);
@@ -32,6 +32,7 @@ export const task = async () => {
 					}
 				}
 				console.log(Math.max(...steps.values()));
+				return;
 			}
 		}
 	}
