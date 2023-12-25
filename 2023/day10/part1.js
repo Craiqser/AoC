@@ -19,10 +19,10 @@ export const task = async () => {
 			if (map[row][col] === 'S') {
 				const queue = [];
 				queue.push([row, col, 0]);
-				if ('|7F'.includes(map[row - 1][col])) queue.push([row - 1, col, 1]);
-				if ('|LJ'.includes(map[row + 1][col])) queue.push([row + 1, col, 1]);
-				if ('-LF'.includes(map[row][col - 1])) queue.push([row, col - 1, 1]);
-				if ('-J7'.includes(map[row][col + 1])) queue.push([row, col + 1, 1]);
+				if ((row > 0) && '|7F'.includes(map[row - 1][col] ?? '+')) queue.push([row - 1, col, 1]);
+				if ((row < map.length - 1) && '|LJ'.includes(map[row + 1][col] ?? '+')) queue.push([row + 1, col, 1]);
+				if ((col > 0) && '-LF'.includes(map[row][col - 1] ?? '+')) queue.push([row, col - 1, 1]);
+				if ((col < map[row].length - 1) && '-J7'.includes(map[row][col + 1] ?? '+')) queue.push([row, col + 1, 1]);
 				const steps = new Map();
 				while (queue.length > 0) {
 					const [r, c, s] = queue.pop();
