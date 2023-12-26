@@ -35,7 +35,7 @@ const diffs = (line) => {
 };
 
 export const task = async () => {
-	let lines = (await Bun.file('./2023/day12/assets/input.txt').text()).split('\n');
+	const lines = (await Bun.file('./2023/day12/assets/input.txt').text()).split('\n');
 	let res = 0;
 	lines.map((line) => res += diffs(line));
 	console.log(res);
