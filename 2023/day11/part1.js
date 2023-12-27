@@ -8,7 +8,7 @@ const expand = (arr) => {
 	return res;
 };
 
-const rotate90 = (arr) => {
+export const rotate90 = (arr) => {
 	const res = [];
 	arr.map((row, r) => row.map((val, c) => {
 		if (!res[c])
