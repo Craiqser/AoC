@@ -1,50 +1,27 @@
 const hash = (str) => str.split('').map((char) => char.charCodeAt(0)).reduce((acc, code) => (acc + code) * 17 % 256, 0);
 
 export const task = async () => {
-	const sequences = (await Bun.file('./2023/day15/assets/test1.txt').text()).split(',');
-	let res = 0;
-	sequences.forEach((s) => res += hash(s));
-	console.log(res);
+	const sequences = (await Bun.file('./2023/day15/assets/input.txt').text()).split(',');
+	const boxes = new Array(256).fill('').map(() => []);
+	sequences.forEach((seq) => {
+		if (seq.endsWith('-')) {
+			const label = seq.split('-')[0];
+			const box = hash(label);
+			boxes[box] = boxes[box].filter((lens) => lens.label !== label);
+		} else {
+			const [label, focal] = seq.split('=');
+			const box = hash(label);
+			const idx = boxes[box].findIndex((lens) => lens.label === label);
+			if (idx === -1) {
+				boxes[box].push({ label, focal });
+			} else {
+				boxes[box][idx].focal = focal;
+			}
+		}
+	});
+	const res = boxes.map((box, idx) => box
+		.map((lens, lidx) => (1 + idx) * (1 + lidx) * Number(lens.focal))
+		.reduce((acc, power) => acc + power, 0)
+	);
+	console.log(res.reduce((acc, power) => acc + power, 0));
 };
-/*
-After "rn=1":
-Box 0: [rn 1]
-
-After "cm-":
-Box 0: [rn 1]
-
-After "qp=3":
-Box 0: [rn 1]
-Box 1: [qp 3]
-
-After "cm=2":
-Box 0: [rn 1] [cm 2]
-Box 1: [qp 3]
-
-After "qp-":
-Box 0: [rn 1] [cm 2]
-
-After "pc=4":
-Box 0: [rn 1] [cm 2]
-Box 3: [pc 4]
-
-After "ot=9":
-Box 0: [rn 1] [cm 2]
-Box 3: [pc 4] [ot 9]
-
-After "ab=5":
-Box 0: [rn 1] [cm 2]
-Box 3: [pc 4] [ot 9] [ab 5]
-
-After "pc-":
-Box 0: [rn 1] [cm 2]
-Box 3: [ot 9] [ab 5]
-
-After "pc=6":
-Box 0: [rn 1] [cm 2]
-Box 3: [ot 9] [ab 5] [pc 6]
-
-After "ot=7":
-Box 0: [rn 1] [cm 2]
-Box 3: [ot 7] [ab 5] [pc 6]
-*/
