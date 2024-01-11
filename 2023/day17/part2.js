@@ -36,4 +36,3 @@ export const task = async () => {
 		}
 	}
 }
-// test1 - 94, test2 - 71, input - 1135
