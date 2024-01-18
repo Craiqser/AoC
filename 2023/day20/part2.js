@@ -1,5 +1,6 @@
-const gcd = (a, b) => b == 0 ? a : gcd(b, a % b);
+const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
 const lcm = (a, b) => a * b / gcd(a, b);
+const lcmArr = (ns) => ns.reduce(lcm, 1);
 
 export const task = async () => {
 	const modules = {};
@@ -22,11 +23,9 @@ export const task = async () => {
 			}
 		});
 	}
-
 	while (true) {
 		pressed++;
 		const queue = [['', 'roadcaster', false]];
-
 		while (queue.length) {
 			const [src, dst, sig] = queue.shift();
 			const module = modules[dst];
@@ -40,22 +39,15 @@ export const task = async () => {
 				let pulse = !Object.values(module.src).every((value) => value);
 				module.dst.map((name) => queue.push([dst, name, pulse]));
 
-				if (dst === rxParentName) {
+				if (dst === rxParentName && sig && module.pressed[src] === 0) {
 					module.pressed[src] = pressed;
 				}
 			} else if (module.type === 'b') {
 				module.dst.map((name) => queue.push([dst, name, sig]));
 			}
 		}
-
-		if (Object.values(modules[rxParentName].src).every(value => value)) {
-			console.log(modules[rxParentName]);
-
-			let res = 1;
-			for (let cnt of Object.values(modules[rxParentName].pressed)) {
-				res = lcm(res, cnt);
-			}
-			console.log(res);
+		if (Object.values(modules[rxParentName].pressed).every(value => value)) {
+			console.log(lcmArr(Object.values(modules[rxParentName].pressed)));
 			break;
 		}
 	}
